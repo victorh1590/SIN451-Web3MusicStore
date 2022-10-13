@@ -1,11 +1,33 @@
 @page "/test"
 
-<div class="flex flex-col items-center rounded-box gap-20 py-20">
-  <div class="max-w-screen-xl glass xl:rounded-box grid max-w-screen-xl gap-4 bg-opacity-60 bg-white xl:pb-0 p-10">
-    aaaaaaaaaaaaaaaa
+<div class="hero min-h-screen bg-base-200 self-start bg-transparent">
+  <div class="hero-content text-center">
+    <div class="max-w-md">
+      <h1 class="text-5xl font-bold">Music Store Ethereum</h1>
+      <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+        quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+      <button class="btn btn-primary mr-5">Install Metamask</button>
+      <button class="btn btn-primary">Buy Music</button>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col items-center rounded-box gap-10 py-20 justify-center content-center">
+  <div
+    class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-screen-xl gap-4 bg-opacity-60 bg-white p-10">
+    <p class="bg-red-500">aaaaaaaaaaaaaaaa345678568</p>
     @foreach (var item in products)
     {
-      <p>@item.Name</p>
+      <div class="card card-compact max-w-96 bg-base-100 shadow-xl">
+        <figure><img src="https://placeimg.com/400/225/arch" alt="AlbumCover" /></figure>
+        <div class="card-body">
+          <h2 class="card-title">@item.Name</h2>
+          <p>@item.Description</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Buy Now</button>
+          </div>
+        </div>
+      </div>
     }
   </div>
 </div>

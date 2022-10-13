@@ -65,7 +65,7 @@ namespace Web3MusicStore.App.Pages
       //     examples = ex1.ToList<Product>();
       //   }
       // }
-
+      try {
       var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7050/Store");
 
       var client = ClientFactory.CreateClient();
@@ -87,6 +87,10 @@ namespace Web3MusicStore.App.Pages
       }
 
       StateHasChanged();
+      }
+      catch(Exception ex) {
+        Console.Write(ex);
+      }
     }
   }
 }

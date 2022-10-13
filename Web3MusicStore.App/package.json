@@ -1,8 +1,12 @@
 {
   "scripts": {
-    "tailwind": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./Styles/app.css -o ./wwwroot/app.css --watch"
+    "buildcss": "postcss wwwroot/app.css -o wwwroot/css/app.min.css"
   },
   "dependencies": {
-    "daisyui": "^2.31.0"
+    "autoprefixer": "^10.4.12",
+    "daisyui": "^2.31.0",
+    "postcss": "^8.2.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^3.1.6"
   }
 }

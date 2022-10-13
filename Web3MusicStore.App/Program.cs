@@ -40,3 +40,5 @@ namespace Web3MusicStore.App
     }
   }
 }
+
+// "npx tailwindcss -i ./wwwroot/app.css -o ./wwwroot/css/app.min.css --watch"

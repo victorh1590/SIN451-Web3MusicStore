@@ -41,14 +41,26 @@ public class StoreController : Controller
   // CurrentCategory = category
   // });
 
-  [HttpGet(Name = "GetProduct")]
+  [HttpGet("", Name = "GetProduct")]
   public IActionResult Get()
   {
     if (_repository.Products is null)
     {
-        return NotFound();
+      return NotFound();
     }
 
     return Ok(_repository.Products);
+  }
+
+  [HttpGet("{productID}", Name = "GetProductById")]
+  public IActionResult GetById(long productID)
+  {
+    var item = _repository.Products.Select(x => x).Where(x => x.ProductID == productID);
+    if (item is null)
+    {
+      return NotFound();
+    }
+
+    return Ok(item);
   }
 }
