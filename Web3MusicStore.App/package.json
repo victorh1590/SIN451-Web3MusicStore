@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "tailwind": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./Styles/app.css -o ./wwwroot/app.css --watch"
+  },
+  "dependencies": {
+    "daisyui": "^2.31.0"
+  }
+}
