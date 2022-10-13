@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Web3MusicStore.API.Models
+namespace Web3MusicStore.App.Models
 {
     public record struct Message(string contents);
 

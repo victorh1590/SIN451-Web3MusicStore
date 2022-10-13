@@ -1,7 +1,7 @@
 ﻿using MetaMask.Blazor;
 using MetaMask.Blazor.Enums;
 using MetaMask.Blazor.Exceptions;
-using Web3MusicStore.API.Models;
+using Web3MusicStore.App.Models;
 using Microsoft.AspNetCore.Components;
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
