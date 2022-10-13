@@ -42,8 +42,13 @@ public class StoreController : Controller
   // });
 
   [HttpGet(Name = "GetProduct")]
-  public IEnumerable<Product> Get()
+  public IActionResult Get()
   {
-    return _repository.Products.ToArray();
+    if (_repository.Products is null)
+    {
+        return NotFound();
+    }
+
+    return Ok(_repository.Products);
   }
 }
