@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Http;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace Web3MusicStore.App
 {
@@ -22,6 +24,15 @@ namespace Web3MusicStore.App
       //builder.RootComponents.Add<HeadOutlet>("head::after");
 
       builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+      builder.Services.AddHttpClient();
+      // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7050/Store") });
+
+      // builder.Services.AddHttpClient("WebAPI",
+      //   client => client.BaseAddress = new Uri("https://localhost:7050/Store"))
+      //     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+
+      // builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+      //     .CreateClient("WebAPI"));
 
       builder.Services.AddMetaMaskBlazor();
 
