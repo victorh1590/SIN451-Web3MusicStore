@@ -1,12 +1,9 @@
 {
-  "scripts": {
-    "buildcss": "postcss wwwroot/app.css -o wwwroot/css/app.min.css"
-  },
+  "scripts": {},
   "dependencies": {
     "autoprefixer": "^10.4.12",
-    "daisyui": "^2.31.0",
-    "postcss": "^8.2.6",
-    "postcss-cli": "^8.3.1",
-    "tailwindcss": "^3.1.6"
+    "daisyui": "^2.24.0",
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.1.8"
   }
 }

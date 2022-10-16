@@ -1,10 +1,10 @@
-/*
-! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
-*/
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
+*/
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)

@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
+using System.Diagnostics;
 
 // namespace Web3MusicStore.App.Pages
 // {
@@ -48,35 +50,34 @@ using System.Text.Json.Serialization;
 
 namespace Web3MusicStore.App.Pages
 {
+  // public enum State{
+  //   Home = 0,
+  //   Product = 1
+  // }
+
   public partial class Test
   {
     [Inject]
     IHttpClientFactory ClientFactory { get; set; } = default!;
-
-    private IEnumerable<Product> products = Array.Empty<Product>();
-
+    public IEnumerable<Product> products = Array.Empty<Product>();
+    public int PageState { get; set; } = 0;
+    
     protected override async Task OnInitializedAsync()
     {
-      // try
-      // {
-      //   var ex1 = await WebAPI.GetFromJsonAsync<IEnumerable<Product>>("https://localhost:7050/Store");
-      //   if (ex1 != null)
-      //   {
-      //     examples = ex1.ToList<Product>();
-      //   }
-      // }
-      try {
+      CancellationTokenSource tokenSource = new CancellationTokenSource();
+      tokenSource.Token.ThrowIfCancellationRequested();
+      tokenSource.CancelAfter(10000);
+
       var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7050/Store");
-
       var client = ClientFactory.CreateClient();
-
-      var response = await client.SendAsync(request);
+      var response = await client.SendAsync(request, tokenSource.Token).ConfigureAwait(false);
+      // var response = await client.GetAsync("https://localhost:7050/Store");
 
       if (response.IsSuccessStatusCode)
       {
         using var responseStream = await response.Content.ReadAsStreamAsync();
-        
-        var productList = await JsonSerializer.DeserializeAsync<IEnumerable<Product>>(responseStream, new JsonSerializerOptions() {
+        var productList = await JsonSerializer.DeserializeAsync<IEnumerable<Product>>(responseStream, new JsonSerializerOptions()
+        {
           PropertyNameCaseInsensitive = true
         });
 
@@ -87,10 +88,15 @@ namespace Web3MusicStore.App.Pages
       }
 
       StateHasChanged();
-      }
-      catch(Exception ex) {
-        Console.Write(ex);
-      }
+    }
+
+    private void ProductClicked(long? productID)
+    {
+      products = products.Select(x => x).Where(x => x.ProductID == productID);
+      PageState = 1;
+      Console.WriteLine(products.First().Name);
+      Console.WriteLine(PageState.ToString());
+      StateHasChanged();
     }
   }
 }
