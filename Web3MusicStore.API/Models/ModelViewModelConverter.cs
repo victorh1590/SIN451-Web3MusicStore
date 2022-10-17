@@ -29,6 +29,8 @@ public class ModelViewModelConverter
         return albumView;
     }
 
+    // public ArtistIdViewModel ArtistIdViewModelConverter(album)
+
     private Dictionary<string, string>? PropStringToDictionary(string prop)
     {
         var json = JObject.Parse(prop);
