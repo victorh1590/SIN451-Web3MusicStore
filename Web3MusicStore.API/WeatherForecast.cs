@@ -1,6 +1,6 @@
 namespace Web3MusicStore.API;
 
-public class WeatherForecast
+public class eatherForecast
 {
     public DateTime Date { get; set; }
 

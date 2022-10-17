@@ -59,7 +59,9 @@ namespace Web3MusicStore.App.Pages
   {
     [Inject]
     IHttpClientFactory ClientFactory { get; set; } = default!;
-    public IEnumerable<Product> products = Array.Empty<Product>();
+    public IEnumerable<Album> albums = Array.Empty<Album>();
+    // public IEnumerable<Track> tracks = Array.Empty<Track>();
+    public IEnumerable<Song> songs  = Array.Empty<Song>();
     public int PageState { get; set; } = 0;
     
     protected override async Task OnInitializedAsync()
@@ -76,25 +78,52 @@ namespace Web3MusicStore.App.Pages
       if (response.IsSuccessStatusCode)
       {
         using var responseStream = await response.Content.ReadAsStreamAsync();
-        var productList = await JsonSerializer.DeserializeAsync<IEnumerable<Product>>(responseStream, new JsonSerializerOptions()
+        var albumList = await JsonSerializer.DeserializeAsync<IEnumerable<Album>>(responseStream, new JsonSerializerOptions()
         {
           PropertyNameCaseInsensitive = true
         });
+        
+        Console.WriteLine(albumList?.First().artists_view.First());
 
-        if (productList != null && productList?.Count() != 0)
+        if (albumList != null && albumList?.Count() != 0)
         {
-          products = productList!.ToList<Product>();
+          albums = albumList!.ToList();
         }
       }
 
       StateHasChanged();
     }
 
-    private void ProductClicked(long? productID)
+    private async Task AlbumClicked(string? albumID)
     {
-      products = products.Select(x => x).Where(x => x.ProductID == productID);
+      albums = albums.Select(x => x).Where(x => x.album_id.Equals(albumID));
       PageState = 1;
-      Console.WriteLine(products.First().Name);
+      
+      CancellationTokenSource tokenSource = new CancellationTokenSource();
+      tokenSource.Token.ThrowIfCancellationRequested();
+      tokenSource.CancelAfter(10000);
+
+      string url = $"https://localhost:7050/Store/{albumID}/TrackList";
+      var request = new HttpRequestMessage(HttpMethod.Get, url);
+      var client = ClientFactory.CreateClient();
+      var response = await client.SendAsync(request, tokenSource.Token).ConfigureAwait(false);
+      
+      if (response.IsSuccessStatusCode)
+      {
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+        var songsResponse = await JsonSerializer.DeserializeAsync<IEnumerable<Song>>(responseStream, new JsonSerializerOptions()
+        {
+          PropertyNameCaseInsensitive = true
+        });
+        
+        var songList = songsResponse?.ToList();
+        if (songList != null && songList.Count != 0)
+        {
+          songs = songList;
+        }
+      }
+      
+      Console.WriteLine(albums.First().name);
       Console.WriteLine(PageState.ToString());
       StateHasChanged();
     }

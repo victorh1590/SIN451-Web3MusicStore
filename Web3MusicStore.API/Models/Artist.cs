@@ -22,7 +22,7 @@ public class Artist {
 	[Column(TypeName = "NVARCHAR(100)")]
 	public string? main_genre { get; set; }
 
-	public IEnumerable<string>? genres { get; set; }
+	public string? genres { get; set; }
 
 	[Column(TypeName = "NVARCHAR(600)")]
 	public string? image_url { get; set; }

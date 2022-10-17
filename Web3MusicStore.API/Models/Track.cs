@@ -5,11 +5,11 @@ namespace Web3MusicStore.API.Models;
 
 public class Track
 {
-    [ForeignKey("song_id")]
+    [Required]
     [Column(TypeName = "NVARCHAR(32)")]
     public string song_id { get; set; }
 
-    [ForeignKey("album_id")]
+    [Required]
     [Column(TypeName = "NVARCHAR(32)")]
     public string album_id { get; set; }
 

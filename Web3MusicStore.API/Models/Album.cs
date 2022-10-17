@@ -9,14 +9,17 @@ public class Album {
     public string album_id { get; set; }
 	
     [Required]
-    [Column(TypeName = "NVARCHAR(200)")]
+    [Column(TypeName = "NVARCHAR(400)")]
     public string name { get; set; }
 	
-    [Column(TypeName = "NVARCHAR(200)")]
+    [Column(TypeName = "NVARCHAR(400)")]
     public string? billboard { get; set; }
-	
+
+    // [Required] 
+    // public Dictionary<string, string> artists { get; set; } = new();
     [Required]
-    public IDictionary<string, string> artists { get; set; }
+    [Column(TypeName = "LONGTEXT")]
+    public string artists { get; set; }
 	
     public int? popularity { get; set; }
 	

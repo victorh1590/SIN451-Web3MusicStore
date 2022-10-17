@@ -15,13 +15,12 @@ public class Song {
     [Column(TypeName = "NVARCHAR(200)")]
     public string? billboard { get; set; }
     
+    // [Required]
+    // public Dictionary<string, string> artists { get; set; }
     [Required]
-    public IDictionary<string, string> artists { get; set; }
+    [Column(TypeName = "LONGTEXT")]
+    public string artists { get; set; }
 
-    [Required]
-    [Column(TypeName = "NVARCHAR(20)")]
-    public string release_date_precision { get; set; }
-    
     public int? popularity { get; set; }
 
     [Column("explicit", TypeName = "BOOLEAN")]

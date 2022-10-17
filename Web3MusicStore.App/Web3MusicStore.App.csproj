@@ -9,8 +9,9 @@
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<ImplicitUsings>true</ImplicitUsings>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="MetaMask.Blazor" Version="1.7.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.8" />

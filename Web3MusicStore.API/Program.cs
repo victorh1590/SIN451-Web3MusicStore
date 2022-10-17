@@ -8,10 +8,12 @@ using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<StoreDbContext>(opts => // DB Service
-{
-  opts.UseSqlServer(builder.Configuration["ConnectionStrings:StoreConnection"]); // Retrieve connection string from appsettings.json
-});
+builder.Services.AddDbContext<StoreDbContext>(options =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("StoreConnection");
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    }
+);
 
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
@@ -42,5 +44,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+SeedData.EnsurePopulated(app);
 
 app.Run();
