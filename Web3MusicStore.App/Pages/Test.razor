@@ -1,6 +1,6 @@
 @page "/test"
 
-<div class="hero min-h-screen bg-base-200 bg-transparent">
+@* <div class="hero min-h-screen bg-base-200 bg-transparent">
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">Music Store Ethereum</h1>
@@ -12,8 +12,12 @@
             <button class="btn btn-primary">Buy Music</button>
         </div>
     </div>
-</div>
+</div> *@
 
+<Hero></Hero>
+<ContainerBase></ContainerBase>
+
+@* 
 @if (PageState == 0)
 {
     <div class="flex flex-col w-full items-center rounded-box gap-10 justify-center content-center 
@@ -47,15 +51,6 @@ else if (PageState == 1)
     <div class="bg-base-200 bg-opacity-40 w-full flex flex-col rounded-box gap-10 justify-center content-center
     max-w-screen-xl">
         <div class="m-12 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
-            @* <figure class="grow min-w-max col-span-1 max-w-screen-xl"><img src="https://placeimg.com/400/225/arch"
-        alt="AlbumCover" />
-        </figure>
-
-        <div class="prose col-span-2">
-        <h2>@products.First().Name</h2>
-        <p>@products.First().Description</p>
-
-        </div> *@
             <figure class="col-span-1 row-span-1">
                 <img class="rounded-tl-box w-full" src=@albums.First().image_url
                      alt="Album"/>
@@ -79,4 +74,4 @@ else if (PageState == 1)
             </div>
         </div>
     </div>
-}
+} *@
