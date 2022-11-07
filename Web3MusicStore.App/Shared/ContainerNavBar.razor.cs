@@ -26,27 +26,28 @@ namespace Web3MusicStore.App.Shared
   public partial class ContainerNavBar : ComponentBase
   {
     [Inject]
-    public StateContainer StateContainer { get; set; } = default!;
+    public TabStateContainer TabStateContainer { get; set; } = default!;
 
     protected override void OnAfterRender(bool firstRender)
     {
       if (firstRender)
       {
-        for (int i = 0; i < StateContainer.savedState.Length; i++)
+        for (int i = 0; i < TabStateContainer.savedState.Length; i++)
         {
-          StateContainer.savedState[i] = "";
+          TabStateContainer.savedState[i] = "";
         }
-        StateContainer.savedState[0] = "tab-active";
+        TabStateContainer.savedState[0] = "tab-active";
+        StateHasChanged();
       }
     }
 
     public void TabClicked(int selectedRef)
     {
-      for (int i = 0; i < StateContainer.savedState.Length; i++)
+      for (int i = 0; i < TabStateContainer.savedState.Length; i++)
       {
-        StateContainer.savedState[i] = "";
+        TabStateContainer.savedState[i] = "";
       }
-      StateContainer.savedState[selectedRef] = "tab-active";
+      TabStateContainer.savedState[selectedRef] = "tab-active";
       StateHasChanged();
     }
   }

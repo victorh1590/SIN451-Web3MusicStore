@@ -25,7 +25,7 @@ namespace Web3MusicStore.App
       //builder.RootComponents.Add<HeadOutlet>("head::after");
 
       builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-      builder.Services.AddScoped<StateContainer>();
+      builder.Services.AddScoped<TabStateContainer>();
       builder.Services.AddHttpClient();
       // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7050/Store") });
 

@@ -1,9 +1,9 @@
 <div class="w-full">
   <div class="tabs bg-base-100 bg-opacity-80 rounded-tl-box rounded-tr-box w-100">
-    @for (int i = 0; i < 3; i++)
+    @for (int i = 0; i < TabStateContainer.tabNames.Length; i++)
     {
       var i2 = i;
-      <a class="tab tab-lifted @StateContainer.savedState[i2]" @onclick="() => TabClicked(i2)">Normal</a>
+      <a class="tab tab-lifted @TabStateContainer.savedState[i2]" @onclick="() => TabClicked(i2)">@TabStateContainer.tabNames[i2]</a>
     }
   </div>
   <div class="navbar bg-base-100 bg-opacity-80  mt-0">
