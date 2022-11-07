@@ -145,7 +145,7 @@ namespace Web3MusicStore.App.Shared
 
     public async Task PlayButtonClicked(int elementRef)
     {
-      Console.WriteLine(elementRef.ToString());
+      // Console.WriteLine(elementRef.ToString());
       await JSRuntime.InvokeVoidAsync("disablePlayAll", memberRef[elementRef]);
       await JSRuntime.InvokeVoidAsync("enablePlayClicked", memberRef[elementRef]);
       StateHasChanged();

@@ -3,6 +3,7 @@ using MetaMask.Blazor.Enums;
 using MetaMask.Blazor.Exceptions;
 using Web3MusicStore.App.Models;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
 using System;
@@ -24,5 +25,29 @@ namespace Web3MusicStore.App.Shared
 {
   public partial class ContainerNavBar : ComponentBase
   {
+    [Inject]
+    public StateContainer StateContainer { get; set; } = default!;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+      if (firstRender)
+      {
+        for (int i = 0; i < StateContainer.savedState.Length; i++)
+        {
+          StateContainer.savedState[i] = "";
+        }
+        StateContainer.savedState[0] = "tab-active";
+      }
+    }
+
+    public void TabClicked(int selectedRef)
+    {
+      for (int i = 0; i < StateContainer.savedState.Length; i++)
+      {
+        StateContainer.savedState[i] = "";
+      }
+      StateContainer.savedState[selectedRef] = "tab-active";
+      StateHasChanged();
+    }
   }
 }
