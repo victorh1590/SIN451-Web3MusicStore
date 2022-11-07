@@ -198,5 +198,11 @@ namespace Web3MusicStore.App.Shared
       }
       StateHasChanged();
     }
+
+    private bool ShowMyFoo { get; set; } = true;
+    private void Show()
+    {
+      ShowMyFoo = !ShowMyFoo;
+    }
   }
 }

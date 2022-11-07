@@ -57,6 +57,12 @@
         </div>
       }
     </div>
+
+    @if (ShowMyFoo)
+    {
+      <BuyConfirmation></BuyConfirmation>
+    }
+
     @* </div> *@
   }
   else if (PageState.savedState == 1)
