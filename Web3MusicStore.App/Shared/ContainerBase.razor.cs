@@ -199,10 +199,11 @@ namespace Web3MusicStore.App.Shared
       StateHasChanged();
     }
 
-    private bool ShowMyFoo { get; set; } = true;
+    private bool ShowMyFoo { get; set; } = false;
     private void Show()
     {
       ShowMyFoo = !ShowMyFoo;
+      StateHasChanged();
     }
   }
 }
