@@ -27,6 +27,10 @@ namespace Web3MusicStore.App.Shared
   {
     [Inject]
     public TabStateContainer TabStateContainer { get; set; } = default!;
+    [Inject]
+    public PageStateContainer PageState { get; set; } = default!;
+    [Inject]
+    public NavigationManager NavManager { get; set; } = default!;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -41,13 +45,31 @@ namespace Web3MusicStore.App.Shared
       }
     }
 
-    public void TabClicked(int selectedRef)
+    public async Task TabClicked(int selectedRef)
     {
       for (int i = 0; i < TabStateContainer.savedState.Length; i++)
       {
         TabStateContainer.savedState[i] = "";
       }
       TabStateContainer.savedState[selectedRef] = "tab-active";
+
+      Console.WriteLine("Selected: " + selectedRef);
+      Console.WriteLine("Page State: " + PageState.savedState.ToString());
+
+      switch (selectedRef)
+      {
+        case 0:
+          PageState.savedState = 0;
+          break;
+        case 1:
+          // PageState.savedState = 1;
+          break;
+        case 2:
+          PageState.savedState = 2;
+          break;
+        default:
+          break;
+      }
       StateHasChanged();
     }
   }

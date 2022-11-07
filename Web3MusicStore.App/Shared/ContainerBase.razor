@@ -1,11 +1,42 @@
 ﻿<div class="flex flex-col w-full items-center rounded-box gap-3 justify-center content-center 
   bg-base-200 bg-opacity-40 max-w-screen-xl">
-  <ContainerNavBar></ContainerNavBar>
 
-  @if (PageState == 0)
+  @* <ContainerNavBar></ContainerNavBar> *@
+  <div class="w-full">
+    <div class="tabs bg-base-100 bg-opacity-80 rounded-tl-box rounded-tr-box w-100">
+      @for (int i = 0; i < TabStateContainer.tabNames.Length; i++)
+      {
+        var i2 = i;
+        <a class="tab tab-lifted @TabStateContainer.savedState[i2]"
+        @onclick="() => TabClicked(i2)">@TabStateContainer.tabNames[i2]</a>
+      }
+    </div>
+    <div class="navbar bg-base-100 bg-opacity-80 mt-0">
+      <div class="flex-1">
+        <a class="btn btn-ghost normal-case text-xl" href="/test">MusicStore</a>
+      </div>
+      <div class="flex-none gap-2">
+        <div class="form-control">
+          <input type="text" placeholder="Search" class="input input-bordered" />
+        </div>
+        <div class="navbar-end">
+          <button class="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  @* NavBar End *@
+
+  @if (PageState.savedState == 0)
   {
 
-    <div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0 
+    <div id="store" class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0 
     max-w-screen-xl gap-4 bg-base-200 p-10 w-auto h-auto">
       @foreach (var item in albums)
       {
@@ -28,7 +59,7 @@
     </div>
     @* </div> *@
   }
-  else if (PageState == 1)
+  else if (PageState.savedState == 1)
   {
     @* <div class="bg-base-200 bg-opacity-40 w-full flex flex-col rounded-box gap-3 justify-center content-center
       max-w-screen-xl">
@@ -91,7 +122,7 @@
         </div>
         <div class="place-items-end flex flex-row flex-nowrap place-content-between">
           <div class="mt-auto mr-auto ml-4 mb-4">
-            <button class="ml-auto btn btn-primary" @onclick="() => ClickBack()">Voltar</button>
+            <button class="ml-auto btn btn-primary" @onclick="() => ClickBack()">Back</button>
           </div>
           <div class="mt-auto ml-auto mr-4 mb-4">
             <button class="ml-auto btn btn-primary">Buy</button>
@@ -101,5 +132,21 @@
     </div>
     @* </div> *@
   }
-  
+  else if (PageState.savedState == 2)
+  {
+    @* <div class="bg-base-200 bg-opacity-40 w-full flex flex-col rounded-box gap-10 justify-center content-center
+      max-w-screen-xl"> *@
+    <div class="m-3 mt-0 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
+      <figure class="col-span-1 row-span-1">
+        <img class="rounded-tl-box w-full" src="/static/empty.jpg" alt="Album" />
+      </figure>
+      <div class="bg-base-100 col-span-2 row-span-2">
+        @for (int i = 0; i < 5; i++)
+        {
+          <input type="file" class="file-input file-input-bordered file-input-primary w-full max-w-xs" />
+        }
+      </div>
+    </div>
+    @* </div> *@
+  }
 </div>

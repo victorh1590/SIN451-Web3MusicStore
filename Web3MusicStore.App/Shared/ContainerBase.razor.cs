@@ -62,11 +62,17 @@ namespace Web3MusicStore.App.Shared
     public IHttpClientFactory ClientFactory { get; set; } = default!;
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
+    [Inject]
+    public TabStateContainer TabStateContainer { get; set; } = default!;
+    [Inject]
+    public PageStateContainer PageState { get; set; } = default!;
+    [Inject]
+    public NavigationManager NavManager { get; set; } = default!;
     public IEnumerable<Album> albums = Array.Empty<Album>();
     public IEnumerable<Album> albumSelected = Array.Empty<Album>();
     // public IEnumerable<Track> tracks = Array.Empty<Track>();
     public List<Song> songs = new List<Song>();
-    public int PageState { get; set; } = 0;
+    // public int PageState.savedState { get; set; } = 0;
     private ElementReference[] memberRef { get; set; } = new ElementReference[30];
 
     protected override async Task OnInitializedAsync()
@@ -102,7 +108,7 @@ namespace Web3MusicStore.App.Shared
     protected async Task AlbumClicked(string? albumID)
     {
       albumSelected = albums.Select(x => x).Where(x => x.album_id.Equals(albumID));
-      PageState = 1;
+      PageState.savedState = 1;
       CancellationTokenSource tokenSource = new CancellationTokenSource();
       tokenSource.Token.ThrowIfCancellationRequested();
       tokenSource.CancelAfter(10000);
@@ -133,13 +139,13 @@ namespace Web3MusicStore.App.Shared
       }
 
       Console.WriteLine(albumSelected.First().name);
-      Console.WriteLine(PageState.ToString());
+      Console.WriteLine(PageState.savedState.ToString());
       StateHasChanged();
     }
 
     public void ClickBack()
     {
-      PageState = 0;
+      PageState.savedState = 0;
       StateHasChanged();
     }
 
@@ -148,6 +154,48 @@ namespace Web3MusicStore.App.Shared
       // Console.WriteLine(elementRef.ToString());
       await JSRuntime.InvokeVoidAsync("disablePlayAll", memberRef[elementRef]);
       await JSRuntime.InvokeVoidAsync("enablePlayClicked", memberRef[elementRef]);
+      StateHasChanged();
+    }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+      if (firstRender)
+      {
+        for (int i = 0; i < TabStateContainer.savedState.Length; i++)
+        {
+          TabStateContainer.savedState[i] = "";
+        }
+        TabStateContainer.savedState[0] = "tab-active";
+        StateHasChanged();
+      }
+    }
+
+    public async Task TabClicked(int selectedRef)
+    {
+      for (int i = 0; i < TabStateContainer.savedState.Length; i++)
+      {
+        TabStateContainer.savedState[i] = "";
+      }
+      TabStateContainer.savedState[selectedRef] = "tab-active";
+
+      Console.WriteLine("Selected: " + selectedRef);
+      Console.WriteLine("Page State: " + PageState.savedState.ToString());
+
+      switch (selectedRef)
+      {
+        case 0:
+          PageState.savedState = 0;
+          break;
+        case 1:
+          // PageState.savedState = 1;
+          break;
+        case 2:
+          PageState.savedState = 2;
+          break;
+        default:
+          break;
+      }
       StateHasChanged();
     }
   }
