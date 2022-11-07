@@ -1,8 +1,11 @@
 ﻿@if (PageState == 0)
 {
-  <div class="flex flex-col w-full items-center rounded-box gap-10 justify-center content-center 
+  <div class="flex flex-col w-full items-center rounded-box gap-3 justify-center content-center 
   bg-base-200 bg-opacity-40 max-w-screen-xl">
-    <div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 
+    <ContainerNavBar></ContainerNavBar>
+
+
+    <div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0 
     max-w-screen-xl gap-4 bg-base-200 p-10 w-auto h-auto">
       @foreach (var item in albums)
       {
@@ -27,48 +30,72 @@
 }
 else if (PageState == 1)
 {
-  <div class="bg-base-200 bg-opacity-40 w-full flex flex-col rounded-box gap-10 justify-center content-center
+  <div class="bg-base-200 bg-opacity-40 w-full flex flex-col rounded-box gap-3 justify-center content-center
     max-w-screen-xl">
-    <div class="m-12 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
+    <ContainerNavBar></ContainerNavBar>
+    <div class="m-3 mt-0 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
       <figure class="col-span-1 row-span-1">
-        <img class="rounded-tl-box w-full" src=@albums.First().image_url alt="Album" />
+        <img class="rounded-tl-box w-full" src=@albumSelected.First().image_url alt="Album" />
       </figure>
-      <div class="card-body col-span-2 row-span-2 bg-primary-content rounded-tr-box rounded-br-box">
-        <h2 class="card-title">@albums.First().name</h2>
-        <p>@albums.First().billboard</p>
-        @foreach (var artist in albums.First().artists_view)
-        {
-        <p>@artist.Value</p>
-        }
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Duration</th>
-                <th>Play</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for(int i = 0; i < songs.Count; i++)
+      <div
+      class="col-span-2 row-span-2 h-auto grid grid-rows-[75%,25%] bg-primary-content rounded-tr-box rounded-br-box ">
+        <div class="place-content-start overflow-x-auto">
+
+          @* <div class="place-self-start"> *@
+          <div class="place-self-start m-6">
+            <h2 class="font-bold text-2xl">@albumSelected.First().name</h2>
+            <p class="align-top m-0">[@albumSelected.First().billboard]
+              <br><br>Artists:
+              @foreach (var artist in albumSelected.First().artists_view)
               {
-                var i2 = i;
-                <tr class="hover">
-                  <th>1</th>
-                  <td>
-                    @songs.ElementAt(i).song_name
-                  </td>
-                  <td>3:33</td>
-                  <td @ref="memberRef[i2]" id="play-btn" class="element-@i2" @onclick="() => PlayButtonClicked(i2)">
-                    <i class="fa-solid fa-play"></i></td>
-                </tr>
+              <p>@artist.Value</p>
               }
-            </tbody>
-          </table>
+            </p>
+          </div>
+
+
+          <div class="overflow-x-auto mb-6 mr-6 ml-6 mt-0 min-w-0">
+            <table class="table min-w-full">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Duration</th>
+                  <th>Play</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (int i = 0; i < songs.Count; i++)
+                {
+                  var i2 = i;
+                  var i3 = i + 1;
+                  <tr class="hover">
+                    <th>@i3</th>
+                    <td>
+                      @songs.ElementAt(i).song_name
+                    </td>
+                    <td>3:33</td>
+                    <td @ref="memberRef[i2]" id="play-btn" class="element-@i2" @onclick="() => PlayButtonClicked(i2)">
+                      <i class="fa-solid fa-play"></i>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            @if (songs.Count == 0)
+            {
+              <br>
+              <p class="text-center">No tracks from this album.</p>
+            }
+          </div>
         </div>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Listen</button>
+        <div class="place-items-end flex flex-row flex-nowrap place-content-between">
+          <div class="mt-auto mr-auto ml-4 mb-4">
+            <button class="ml-auto btn btn-primary" @onclick="() => ClickBack()">Voltar</button>
+          </div>
+          <div class="mt-auto ml-auto mr-4 mb-4">
+            <button class="ml-auto btn btn-primary">Buy</button>
+          </div>
         </div>
       </div>
     </div>

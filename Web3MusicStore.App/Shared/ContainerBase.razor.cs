@@ -63,6 +63,7 @@ namespace Web3MusicStore.App.Shared
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
     public IEnumerable<Album> albums = Array.Empty<Album>();
+    public IEnumerable<Album> albumSelected = Array.Empty<Album>();
     // public IEnumerable<Track> tracks = Array.Empty<Track>();
     public List<Song> songs = new List<Song>();
     public int PageState { get; set; } = 0;
@@ -100,7 +101,7 @@ namespace Web3MusicStore.App.Shared
 
     protected async Task AlbumClicked(string? albumID)
     {
-      albums = albums.Select(x => x).Where(x => x.album_id.Equals(albumID));
+      albumSelected = albums.Select(x => x).Where(x => x.album_id.Equals(albumID));
       PageState = 1;
       CancellationTokenSource tokenSource = new CancellationTokenSource();
       tokenSource.Token.ThrowIfCancellationRequested();
@@ -131,8 +132,14 @@ namespace Web3MusicStore.App.Shared
         }
       }
 
-      Console.WriteLine(albums.First().name);
+      Console.WriteLine(albumSelected.First().name);
       Console.WriteLine(PageState.ToString());
+      StateHasChanged();
+    }
+
+    public void ClickBack()
+    {
+      PageState = 0;
       StateHasChanged();
     }
 

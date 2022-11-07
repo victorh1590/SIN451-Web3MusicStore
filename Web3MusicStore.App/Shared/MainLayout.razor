@@ -20,18 +20,37 @@
             <a class="btn btn-ghost normal-case text-xl">MusicStore</a>
         </div>
         <div class="navbar-center">
-            <div class="form-control">
+            @* <div class="form-control">
                 <input type="text" placeholder="Search"
                     class="input input-bordered text-white inline-block w-full sm:w-0 sm:hidden bg-neutral-focus" />
-            </div>
+            </div> *@
         </div>
         <div class="navbar-end">
             <div class="flex flex-row flex-nowrap gap-2">
-                <div class="form-control">
+                @* <div class="form-control">
                     <input type="text" placeholder="Search"
                         class="input input-bordered text-white hidden w-0 sm:inline-block sm:w-full bg-neutral-focus" />
-                </div>
-                <a class="btn btn-secondary">Get started</a>
+                </div> *@
+                <a class="btn btn-secondary mr-3">Connect To MetaMask</a>
+            </div>
+            <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                    <div class="w-10 rounded-full">
+                        @* <img src="static/metamask-logo-64.png" class="rounded-badge border-green-500 border-solid border-4" /> *@
+                        <img src="static/metamask-logo-64.png" class="rounded-badge border-red-600 border-solid border-4" />
+                    </div>
+                </label>
+                <ul tabindex="0"
+                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                    @* <li>
+                        <a class="justify-between">
+                            Profile
+                            <span class="badge">New</span>
+                        </a>
+                    </li> *@
+                    @* <li><a>Settings</a></li> *@
+                    <li><a>Logout</a></li>
+                </ul>
             </div>
         </div>
     </div>
