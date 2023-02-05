@@ -14,6 +14,8 @@ namespace Web3MusicStore.App.Models
     public event Action? OnPageChange;
     
     public event Action? OnAlbumChange;
+    
+    public event Action? OnAPathChange;
 
     public void SetPageState(int num)
     {
