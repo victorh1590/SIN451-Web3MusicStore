@@ -1,25 +1,4 @@
-﻿@using Web3MusicStore.App.Models
-@using MetaMask.Blazor;
-@using MetaMask.Blazor.Enums;
-@using MetaMask.Blazor.Exceptions;
-@using Web3MusicStore.App.Models;
-@using Microsoft.AspNetCore.Components;
-@using Nethereum.ABI.FunctionEncoding;
-@using Nethereum.ABI.Model;
-@using System;
-@using System.Collections.Generic;
-@using System.Linq;
-@using System.Numerics;
-@using System.Threading.Tasks;
-@using System.Net.Http;
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-@using System.Net.Http.Json;
-@using System.Text.Json;
-@using System.Text.Json.Serialization;
-@using System.Threading;
-@using System.Diagnostics;
-@using Microsoft.JSInterop;
-
+﻿@using Org.BouncyCastle.Crypto.Tls
 <div class="m-3 mt-0 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
     <figure class="col-span-1 row-span-1">
         <img class="rounded-tl-box w-full" src=@PageState.albumSelected.First().image_url alt="Album"/>
@@ -103,6 +82,7 @@
     protected override async Task OnInitializedAsync()
     {
         PageState.OnPageChange += StateHasChanged;
+        await Task.Delay(0);
     }
 
     public void ClickBack()

@@ -1,26 +1,4 @@
-﻿@using Web3MusicStore.App.Models
-@using MetaMask.Blazor;
-@using MetaMask.Blazor.Enums;
-@using MetaMask.Blazor.Exceptions;
-@using Web3MusicStore.App.Models;
-@using Microsoft.AspNetCore.Components;
-@using Nethereum.ABI.FunctionEncoding;
-@using Nethereum.ABI.Model;
-@using System;
-@using System.Collections.Generic;
-@using System.Linq;
-@using System.Numerics;
-@using System.Threading.Tasks;
-@using System.Net.Http;
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-@using System.Net.Http.Json;
-@using System.Text.Json;
-@using System.Text.Json.Serialization;
-@using System.Threading;
-@using System.Diagnostics;
-@using Microsoft.JSInterop;
-
-<div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0 
+﻿<div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0 
     max-w-screen-xl gap-4 bg-base-200 p-10 w-auto h-auto">
     @foreach (var item in PageState.albums)
     {
@@ -58,6 +36,7 @@
     protected override async Task OnInitializedAsync()
     {
         PageState.OnAlbumChange += StateHasChanged;
+        await Task.Delay(0);
     }
 
     private async Task AlbumClicked(string? albumID)
