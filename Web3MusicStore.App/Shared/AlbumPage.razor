@@ -1,0 +1,131 @@
+﻿@using Web3MusicStore.App.Models
+@using MetaMask.Blazor;
+@using MetaMask.Blazor.Enums;
+@using MetaMask.Blazor.Exceptions;
+@using Web3MusicStore.App.Models;
+@using Microsoft.AspNetCore.Components;
+@using Nethereum.ABI.FunctionEncoding;
+@using Nethereum.ABI.Model;
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Numerics;
+@using System.Threading.Tasks;
+@using System.Net.Http;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using System.Net.Http.Json;
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@using System.Threading;
+@using System.Diagnostics;
+@using Microsoft.JSInterop;
+
+<div class="m-3 mt-0 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2">
+    <figure class="col-span-1 row-span-1">
+        <img class="rounded-tl-box w-full" src=@PageState.albumSelected.First().image_url alt="Album"/>
+    </figure>
+    <div
+        class="col-span-2 row-span-2 h-auto grid grid-rows-[75%,25%] bg-primary-content rounded-tr-box rounded-br-box ">
+        <div class="place-content-start overflow-x-auto">
+
+            @* <div class="place-self-start"> *@
+            <div class="place-self-start m-6">
+                <h2 class="font-bold text-2xl">@PageState.albumSelected.First().name</h2>
+                <p class="align-top m-0">[@PageState.albumSelected.First().billboard]</p>
+                <br><br>Artists:
+                @foreach (var artist in PageState.albumSelected.First().artists_view)
+                {
+                    <p>@artist.Value</p>
+                }
+            </div>
+
+
+            <div class="overflow-x-auto mb-6 mr-6 ml-6 mt-0 min-w-0">
+                <table class="table min-w-full">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th>Play</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (int i = 0; i < PageState.songs.Count; i++)
+                    {
+                        var i2 = i;
+                        var i3 = i + 1;
+                        <tr class="hover">
+                            <th>@i3</th>
+                            <td>
+                                @PageState.songs.ElementAt(i).song_name
+                            </td>
+                            <td>3:33</td>
+                            <td @ref="memberRef[i2]" id="play-btn" class="element-@i2" @onclick="() => PlayButtonClicked(i2)">
+                                <i class="fa-solid fa-play"></i>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+                @if (PageState.songs.Count == 0)
+                {
+                    <br>
+                    <p class="text-center">No tracks from this album.</p>
+                }
+            </div>
+        </div>
+        <div class="place-items-end flex flex-row flex-nowrap place-content-between">
+            <div class="mt-auto mr-auto ml-4 mb-4">
+                <button class="ml-auto btn btn-primary" @onclick="() => ClickBack()">Back</button>
+            </div>
+            <div class="mt-auto ml-auto mr-4 mb-4">
+                <button class="ml-auto btn btn-primary" @onclick="() => Show()">Buy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (ShowMyFoo)
+{
+    <BuyConfirmation></BuyConfirmation>
+}
+@* </div> *@
+
+@code {
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; } = default!;
+    [Inject]
+    StateContainer PageState { get; set; } = default!;
+    private ElementReference[] memberRef { get; set; } = new ElementReference[30];
+
+    protected override async Task OnInitializedAsync()
+    {
+        PageState.OnPageChange += StateHasChanged;
+    }
+
+    public void ClickBack()
+    {
+        PageState.SetPageState(0);
+    }
+    public async Task PlayButtonClicked(int elementRef)
+    {
+    // Console.WriteLine(elementRef.ToString());
+        await JSRuntime.InvokeVoidAsync("disablePlayAll", memberRef[elementRef]);
+        await JSRuntime.InvokeVoidAsync("enablePlayClicked", memberRef[elementRef]);
+        StateHasChanged();
+    }
+
+    private bool ShowMyFoo { get; set; } = false;
+    private void Show()
+    {
+        ShowMyFoo = !ShowMyFoo;
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        PageState.OnPageChange -= StateHasChanged;
+    }
+}
