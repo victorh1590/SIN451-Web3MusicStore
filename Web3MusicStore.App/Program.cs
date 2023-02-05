@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Http;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Web3MusicStore.App.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web3MusicStore.App
 {
@@ -26,8 +27,24 @@ namespace Web3MusicStore.App
 
       builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
       builder.Services.AddScoped<TabStateContainer>();
-      builder.Services.AddScoped<PageStateContainer>();
+      builder.Services.AddSingleton<StateContainer>();
       builder.Services.AddHttpClient();
+      builder.Services.AddCors(options =>  
+      {  
+        options.AddDefaultPolicy(  
+          policy =>  
+          {  
+            policy.AllowAnyOrigin();  //set the allowed origin  
+          });  
+      }); 
+      // builder.Services.AddCors(options => 
+      //   options.AddPolicy("API_Allowed", 
+      //   policyBuilder => 
+      //       policyBuilder.WithOrigins("https://localhost:7050/Store")
+      //       .AllowAnyMethod()
+      //       .AllowAnyHeader()
+      //     )
+      //   );
       // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7050/Store") });
 
       // builder.Services.AddHttpClient("WebAPI",
@@ -36,9 +53,8 @@ namespace Web3MusicStore.App
 
       // builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
       //     .CreateClient("WebAPI"));
-
+      
       builder.Services.AddMetaMaskBlazor();
-
       await builder.Build().RunAsync();
     }
   }

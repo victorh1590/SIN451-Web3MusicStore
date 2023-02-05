@@ -18,6 +18,8 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Diagnostics;
 using Microsoft.JSInterop;
+using Web3MusicStore.App.Models;
+
 
 // namespace Web3MusicStore.App.Pages
 // {
@@ -58,34 +60,37 @@ namespace Web3MusicStore.App.Shared
 
   public partial class ContainerBase : ComponentBase
   {
+    [Inject] 
+    public StateContainer PageState { get; set; } = default!;
     [Inject]
     public IHttpClientFactory ClientFactory { get; set; } = default!;
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
     [Inject]
     public TabStateContainer TabStateContainer { get; set; } = default!;
-    [Inject]
-    public PageStateContainer PageState { get; set; } = default!;
-    [Inject]
-    public NavigationManager NavManager { get; set; } = default!;
-    public IEnumerable<Album> albums = Array.Empty<Album>();
-    public IEnumerable<Album> albumSelected = Array.Empty<Album>();
+    // [Inject]
+    // public PageStateContainer PageState { get; set; } = default!;
+    // [Inject]
+    // public NavigationManager NavManager { get; set; } = default!;
+    // public IEnumerable<Album> albums = Array.Empty<Album>();
+    // public IEnumerable<Album> albumSelected = Array.Empty<Album>();
     // public IEnumerable<Track> tracks = Array.Empty<Track>();
-    public List<Song> songs = new List<Song>();
+    // public List<Song> songs = new List<Song>();
     // public int PageState.savedState { get; set; } = 0;
     private ElementReference[] memberRef { get; set; } = new ElementReference[30];
 
     protected override async Task OnInitializedAsync()
     {
+      PageState.OnPageChange += StateHasChanged;
       CancellationTokenSource tokenSource = new CancellationTokenSource();
       tokenSource.Token.ThrowIfCancellationRequested();
       tokenSource.CancelAfter(10000);
-
+      
       var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7050/Store");
       var client = ClientFactory.CreateClient();
       var response = await client.SendAsync(request, tokenSource.Token).ConfigureAwait(false);
       // var response = await client.GetAsync("https://localhost:7050/Store");
-
+      
       if (response.IsSuccessStatusCode)
       {
         using var responseStream = await response.Content.ReadAsStreamAsync();
@@ -93,22 +98,22 @@ namespace Web3MusicStore.App.Shared
         {
           PropertyNameCaseInsensitive = true
         });
-
+      
         Console.WriteLine(albumList?.First().artists_view.First());
-
+      
         if (albumList != null && albumList?.Count() != 0)
         {
-          albums = albumList!.ToList();
+          PageState.SetAlbums(albumList!.ToList());
         }
       }
-
-      StateHasChanged();
     }
 
     protected async Task AlbumClicked(string? albumID)
     {
-      albumSelected = albums.Select(x => x).Where(x => x.album_id.Equals(albumID));
-      PageState.savedState = 1;
+      PageState.SetSongs(new List<Song>()); 
+      
+      PageState.SetAlbumSelected(PageState.albums.Select(x => x).Where(x => x.album_id.Equals(albumID)));
+      PageState.SetPageState(1);
       CancellationTokenSource tokenSource = new CancellationTokenSource();
       tokenSource.Token.ThrowIfCancellationRequested();
       tokenSource.CancelAfter(10000);
@@ -130,7 +135,7 @@ namespace Web3MusicStore.App.Shared
         var songList = songsResponse?.ToList();
         if (songList != null && songList.Count != 0)
         {
-          songs = songList;
+          PageState.SetSongs(songList);
           foreach (var song in songList)
           {
             Console.WriteLine(song.song_name);
@@ -138,14 +143,14 @@ namespace Web3MusicStore.App.Shared
         }
       }
 
-      Console.WriteLine(albumSelected.First().name);
-      Console.WriteLine(PageState.savedState.ToString());
-      StateHasChanged();
+      Console.WriteLine(PageState.albumSelected.First().name);
+      Console.WriteLine(PageState.PageState.ToString());
+      await InvokeAsync(StateHasChanged);
     }
 
     public void ClickBack()
     {
-      PageState.savedState = 0;
+      PageState.SetPageState(0);
       StateHasChanged();
     }
 
@@ -180,23 +185,22 @@ namespace Web3MusicStore.App.Shared
       TabStateContainer.savedState[selectedRef] = "tab-active";
 
       Console.WriteLine("Selected: " + selectedRef);
-      Console.WriteLine("Page State: " + PageState.savedState.ToString());
+      Console.WriteLine("Page State: " + PageState.PageState);
 
       switch (selectedRef)
       {
         case 0:
-          PageState.savedState = 0;
+          PageState.SetPageState(0);
           break;
         case 1:
-          // PageState.savedState = 1;
+          // PageState.SetPageState(1);
           break;
         case 2:
-          PageState.savedState = 2;
-          break;
-        default:
+          PageState.SetPageState(2);
           break;
       }
-      StateHasChanged();
+
+      await InvokeAsync(StateHasChanged);
     }
 
     private bool ShowMyFoo { get; set; } = false;
@@ -204,6 +208,11 @@ namespace Web3MusicStore.App.Shared
     {
       ShowMyFoo = !ShowMyFoo;
       StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+      PageState.OnPageChange -= StateHasChanged;
     }
   }
 }
