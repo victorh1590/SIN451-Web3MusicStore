@@ -16,3 +16,11 @@
   </div>
 
 }
+
+@code {
+  private bool ShowMyFoo { get; set; } = true;
+  private void Show()
+  {
+    ShowMyFoo = !ShowMyFoo;
+  }
+}

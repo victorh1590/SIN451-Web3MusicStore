@@ -4,7 +4,9 @@
         {
             var i2 = i;
             <a class="tab tab-lifted @(i2 == PageState.PageState ? "tab-active" : "")"
-               @onclick="() => TabClicked(i2)">@tabNames[i2]</a>
+               @onclick="() => TabClicked(i2)">
+                @tabNames[i2]
+            </a>
         }
     </div>
     <div class="navbar bg-base-100 bg-opacity-80 mt-0">
@@ -13,17 +15,66 @@
         </div>
         <div class="flex-none gap-2">
             <div class="form-control">
-                <input type="text" placeholder="Search" class="input input-bordered" />
+                <input type="text" placeholder="Search" class="input input-bordered"/>
             </div>
             <div class="navbar-end">
                 <button class="btn btn-ghost btn-circle">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+@code {
+    [Inject]
+    public StateContainer PageState { get; set; } = default!;
+
+    public string[] tabNames { get; } = new string[3] { "Store", "Owned", "Sell" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        PageState.OnPageChange += StateHasChanged;
+        await Task.Delay(0);
+    }
+
+
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         TabStateContainer.SetTabState(0);
+    //         StateHasChanged();
+    //     }
+    // }
+
+    public async Task TabClicked(int selectedRef)
+    {
+        Console.WriteLine("Selected: " + selectedRef);
+        Console.WriteLine("Page State: " + PageState.PageState);
+
+        switch (selectedRef)
+        {
+            case 0:
+                PageState.SetPageState(0);
+                break;
+            case 1:
+                PageState.SetPageState(1);
+                break;
+            case 2:
+                PageState.SetPageState(2);
+                break;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        PageState.OnPageChange -= StateHasChanged;
+    }
+}
