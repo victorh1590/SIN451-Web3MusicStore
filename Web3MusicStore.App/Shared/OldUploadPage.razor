@@ -1,0 +1,96 @@
+﻿@* <div class="m-3 mt-0 bg-primary-focus rounded-box w-auto h-auto max-w-screen-xl grid grid-cols-3 grid-rows-2"> *@
+@*     <figure class="col-span-1 row-span-1"> *@
+@*         <img class="rounded-tl-box w-full" src="/static/empty.jpg" alt="Album"/> *@
+@*     </figure> *@
+@*     @* <div class="bg-base-100 col-span-2 row-span-2"> *@
+@*         @for (int i = 0; i < 5; i++) *@
+@*         { *@
+@*         <input type="file" class="file-input file-input-bordered file-input-primary w-full max-w-xs" /> *@
+@*         } *@
+@*         </div> *@ 
+@*     <div *@
+@*         class="col-span-2 max-w-screen-xl mt-0  *@
+@*         row-span-2 p-10 w-full h-auto grid-rows-[75%,25%] *@
+@*         bg-primary-content rounded-tr-box rounded-br-box"> *@
+@*         $1$             <div class="rounded-box grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 m-3 mt-0  #1# *@
+@*         $1$                max-w-screen-xl gap-4 bg-base-200 p-10 w-auto h-auto"> #1# *@
+@*         <div class="place-content-start overflow-x-auto grid grid-cols-3 grid-rows-2"> *@
+@* *@
+@* *@
+@*             $1$ <div class="place-self-start"> #1# *@
+@*             <div class="place-self-start m-6"> *@
+@*                 <h2 class="font-bold text-xl">Upload your album</h2> *@
+@*                 <p class="align-top m-0 text-sm"></p> *@
+@*                 <div class="form-control"> *@
+@*                     <label class="label"> *@
+@*                         $1$ <span class="label-text">Album Name</span> #1# *@
+@*                     </label> *@
+@*                     <label class="input-group input-group-vertical"> *@
+@*                         <span>Album</span> *@
+@*                         <input type="text" placeholder="info@site.com" class="input input-bordered"/> *@
+@*                     </label> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@* *@
+@*             <div class="overflow-x-auto mb-6 mr-6 ml-6 mt-0 min-w-0"> *@
+@*                 <div class="flex justify-center"> *@
+@*                     <div class="self-center flex w-full h-auto items-center justify-center bg-grey-lighter"> *@
+@*                         <label *@
+@*                             class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"> *@
+@*                             <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"> *@
+@*                                 <path *@
+@*                                     d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/> *@
+@*                             </svg> *@
+@*                             <span class="mt-2 text-base leading-normal">Select a file</span> *@
+@*                             <input type='file' class="hidden"/> *@
+@*                         </label> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="row-span-2 col-span-2"> *@
+@*             <div class="place-items-end place-content-between"> *@
+@*                 <div class="mt-auto mr-auto ml-4 mb-4"> *@
+@*                     <button class="ml-auto btn btn-primary" @onclick="() => ClickBack()">Back</button> *@
+@*                 </div> *@
+@*                 <div class="mt-auto ml-auto mr-4 mb-4"> *@
+@*                     <button class="ml-auto btn btn-primary" @onclick="() => Show()">Upload</button> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* @code { *@
+@* *@
+@*     [Inject] *@
+@*     public StateContainer PageState { get; set; } = default!; *@
+@* *@
+@*     protected override async Task OnInitializedAsync() *@
+@*     { *@
+@*         PageState.OnPageChange += StateHasChanged; *@
+@*         await Task.Delay(0); *@
+@*     } *@
+@* *@
+@* *@
+@*     public void ClickBack() *@
+@*     { *@
+@*         PageState.SetPageState(0); *@
+@*         StateHasChanged(); *@
+@*     } *@
+@* *@
+@*     private bool ShowMyFoo { get; set; } = false; *@
+@* *@
+@*     private void Show() *@
+@*     { *@
+@*         ShowMyFoo = !ShowMyFoo; *@
+@*         StateHasChanged(); *@
+@*     } *@
+@* *@
+@*     public void Dispose() *@
+@*     { *@
+@*     // PageState.OnPageChange -= StateHasChanged; *@
+@*     } *@
+@* *@
+@* } *@
