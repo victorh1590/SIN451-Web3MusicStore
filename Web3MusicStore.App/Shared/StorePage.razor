@@ -4,7 +4,7 @@
     {
         <div class="card card-compact max-w-96 bg-primary-content shadow-xl">
             <figure>
-                <img src=@item.image_url alt="AlbumCover"/>
+                <img src=@item.image_url alt="AlbumCover" />
             </figure>
             <div class="card-body">
                 <h2 class="card-title">@item.name</h2>
@@ -20,11 +20,6 @@
     }
 </div>
 
-@if (ShowMyFoo)
-{
-    <BuyConfirmation></BuyConfirmation>
-}
-
 @code {
 
     [Inject]
@@ -32,7 +27,7 @@
 
     [Inject]
     public IHttpClientFactory ClientFactory { get; set; } = default!;
-    
+
     protected override async Task OnInitializedAsync()
     {
         PageState.OnAlbumChange += StateHasChanged;
@@ -58,10 +53,10 @@
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
             var songsResponse = await JsonSerializer.DeserializeAsync<IEnumerable<Song>>(responseStream, new
-                JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                });
 
             var songList = songsResponse?.ToList();
             if (songList != null && songList.Count != 0)
@@ -73,14 +68,6 @@
                 }
             }
         }
-    }
-
-    private bool ShowMyFoo { get; set; } = false;
-
-    private void Show()
-    {
-        ShowMyFoo = !ShowMyFoo;
-        StateHasChanged();
     }
 
     public void Dispose()

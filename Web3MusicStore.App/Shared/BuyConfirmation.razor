@@ -1,16 +1,16 @@
-@if (ShowMyFoo)
+@if (ShowModal)
 {
-  <div
-  class="fixed z-50 bg-base-100 w-1/2 h-1/2 top-40 left-50 flex justify-center items-center rounded-box">
+  <div class="fixed z-50 bg-base-100 w-1/2 h-1/2 top-40 left-50 flex justify-center items-center rounded-box">
     <div class="mockup-window border bg-base-300 w-full h-full">
       <i class="absolute text-gray-600 ml-auto top-[0.975rem] left-24 fa-solid fa-cart-shopping"></i>
       <button @onclick="@Show" class="absolute ml-auto top-[0.025rem] right-2 btn btn-ghost btn-square"><i
-        class="text-red-600  fa-solid fa-x"></i></button>
+          class="text-red-600  fa-solid fa-x"></i></button>
       <div
-      class="h-full flex basis-full flex-col flex-wrap items-center align-middle justify-start px-4 py-16 bg-base-200">
+        class="h-full flex basis-full flex-col flex-wrap items-center align-middle justify-start px-4 py-16 bg-base-200">
         <span class="text-2xl font-semibold">Checkout Confirmation</span><br>
         <span class="text-xl mt-8 font-semibold">Price: 1 ETH </span>
-        <button class="mt-16 btn btn-primary" @onclick="() => Show()">Finish Transaction<i class="ml-2 fa-solid fa-dollar-sign"></i></button>
+        <button class="mt-16 btn btn-primary" @onclick="() => Show()">Finish Transaction<i
+            class="ml-2 fa-solid fa-dollar-sign"></i></button>
       </div>
     </div>
   </div>
@@ -18,9 +18,9 @@
 }
 
 @code {
-  private bool ShowMyFoo { get; set; } = true;
+  private bool ShowModal { get; set; } = true;
   private void Show()
   {
-    ShowMyFoo = !ShowMyFoo;
+    ShowModal = !ShowModal;
   }
 }
