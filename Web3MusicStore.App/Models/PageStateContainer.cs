@@ -1,7 +1,7 @@
 
 namespace Web3MusicStore.App.Models
 {
-  public class StateContainer
+  public class PageStateContainer
   {
     public int PageState { get; private set; } = 0;
     
